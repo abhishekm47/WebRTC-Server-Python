@@ -9,10 +9,10 @@
 		var width = canvas.width;
 		var height = canvas.height;			
 		var frameRequestId = null;
-		var videoStreamUrl = window.URL.createObjectURL(media);
+		var videoStreamUrl = media;
 		var frames = new fQueue(frameRate*bufferLength);
 
-		video.src = videoStreamUrl;
+		video.srcObject = videoStreamUrl;
 
 		function drawVideoFrame(time) {
 			frameRequestId = requestAnimationFrame(drawVideoFrame);

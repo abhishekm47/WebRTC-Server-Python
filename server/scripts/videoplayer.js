@@ -10,6 +10,7 @@
             var frame = buffer.dequeue();
             if (frame)
                 renderer.src = frame;
+                console.log(frame)
         };
 
         this.play = function() {
