@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <title>{% block title %}Default title{% end %}</title>
+        <script type="text/javascript" src="/scripts/xbrowser.js"></script>
+        <script type="text/javascript" src="/scripts/fqueue.js"></script>
+        <script type="text/javascript" src="/scripts/usermedia.js"></script>
+        <script type="text/javascript" src="/scripts/mediastreamer.js"></script>
+        <script type="text/javascript" src="/scripts/audiorecorder.js"></script>
+        <script type="text/javascript" src="/scripts/videorecorder.js"></script>
+        <script type="text/javascript" src="/scripts/audioplayer.js"></script>
+        <script type="text/javascript" src="/scripts/videoplayer.js"></script>
+        {% block scripts_head %}{% end %}
+    </head>
+    <body>        
+        {% block body %}{% end %}        
+        {% block scripts %}{% end %}
+    </body>
+</html>

@@ -1,0 +1,64 @@
+{% extends master.html %}
+
+{% block title %}My Cast{% end %}
+
+{% block body %}
+<div>
+    <input type="button" onclick="startRecording()" value="Start"></input>
+    <input type="button" onclick="stopRecording()" value="Stop"></input>
+</div>
+<div>
+    <video autoplay muted></video>
+</div>
+<div>
+    <canvas width="320" height="240" style="display:none"></canvas>
+</div>
+<p><a id="streamLink" style="display:none">Link to yout cast</a></p>
+{% end %}
+
+{% block scripts %}
+<script type="text/javascript">    
+    function startRecording() {
+        console.log("Starting streaming");
+
+        document.querySelector('video').style.display = "block";
+
+        userMedia = new UserMedia();
+        userMedia.capture(function(media){
+            var socketUrl = "ws://{{address}}/capture-stream";
+            var video = document.querySelector('video');
+            var canvas = document.querySelector('canvas');        
+            videoRecorder = new VideoRecorder(60, media, video, canvas);
+            audioRecorder = new AudioRecorder(60, media);
+            mediaStreamer = new MediaStreamer(socketUrl, audioRecorder, videoRecorder, "w");
+            
+            mediaStreamer.onStreamId = function(id) {
+                var castUrl = "http://{{public_address}}/cast/" + id;
+                var streamLink = document.querySelector("#streamLink");
+                streamLink.href = castUrl;
+                streamLink.onclick = function() {
+                    window.open(castUrl, 'newwindow', 'width=640, height=480'); 
+                    return false;
+                };
+                streamLink.style.display = "inline";
+            };
+
+            audioRecorder.start();
+            videoRecorder.start();
+            mediaStreamer.start();
+        });
+    }
+
+    function stopRecording() {
+        console.log("Stopping streaming");
+
+        document.querySelector('video').style.display = "none";
+        document.querySelector("#streamLink").style.display = "none";
+          
+        mediaStreamer.stop();            
+        videoRecorder.stop();
+        audioRecorder.stop();
+        userMedia.release();
+    }
+</script>
+{% end %}

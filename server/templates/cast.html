@@ -1,0 +1,35 @@
+{% extends master.html %}
+
+{% block title %}Live cast - {{stream_id}}{% end %}
+
+{% block body %}
+<input type="button" onclick="stop()" value="Stop"></input>
+<div>
+    <img id="renderer" />
+</div>
+{% end %}
+
+{% block scripts %}
+<script type="text/javascript">    
+    var streamId = "{{stream_id}}";
+    var socketUrl = "ws://{{public_address}}/cast-stream/" + streamId;
+
+    console.log('Playing cast: ' + streamId);
+   
+	videoPlayer = new VideoPlayer(60, document.querySelector('#renderer'));
+	audioPlayer = new AudioPlayer(60);
+	mediaStreamer = new MediaStreamer(socketUrl, audioPlayer, videoPlayer);
+
+	mediaStreamer.start();
+	audioPlayer.play();
+	videoPlayer.play();
+
+	function stop() {
+	    console.log("Stopping playback");
+
+	    mediaStreamer.stop();
+	    audioPlayer.stopPlay();
+	    videoPlayer.stopPlay();
+	}
+</script>
+{% end %}

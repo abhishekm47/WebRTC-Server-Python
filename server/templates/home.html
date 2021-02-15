@@ -1,0 +1,18 @@
+{% extends master.html %}
+
+{% block title %}Active Casts{% end %}
+
+{% block body %}
+    <div>
+    {% if len(streams) > 0 %}
+    	<p>Live right now:</p>
+    	{% for id in streams %}
+    		<a href="http://{{public_address}}/cast/{{id}}">{{id}}</a><br/>
+    	{% end %}
+    {% else %}
+    	Nobody's streaming right now :(
+    {% end %}
+    </div>
+    <br/>
+    Start your <a href="/capture">cast</a>!
+{% end %}
