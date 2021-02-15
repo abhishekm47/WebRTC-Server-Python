@@ -25,7 +25,7 @@
 
         userMedia = new UserMedia();
         userMedia.capture(function(media){
-            var socketUrl = "ws://{{address}}/capture-stream";
+            var socketUrl = "ws://{{public_address}}/capture-stream";
             var video = document.querySelector('video');
             var canvas = document.querySelector('canvas');        
             videoRecorder = new VideoRecorder(60, media, video, canvas);
